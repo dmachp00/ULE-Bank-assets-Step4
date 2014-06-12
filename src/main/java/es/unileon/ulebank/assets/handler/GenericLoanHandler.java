@@ -56,7 +56,9 @@ public class GenericLoanHandler implements Handler {
 					
 				}catch(NumberFormatException ex){
 					throw new MalformedHandlerException("The check digit is not valid, must be a number between 0 and 9.");
-				}		
+				}
+				
+				
 				
 			}else{
 				throw new MalformedHandlerException("type must be LN or MG");
@@ -64,6 +66,7 @@ public class GenericLoanHandler implements Handler {
 		}else{
 			throw new MalformedHandlerException("wrong number of fields");
 		}
+		
 		
 		this.id = id;
 	}
@@ -94,5 +97,6 @@ public class GenericLoanHandler implements Handler {
 	public String toString() {
 		return this.id;
 	}
+	
 	
 }

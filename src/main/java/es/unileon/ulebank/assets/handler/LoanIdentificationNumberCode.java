@@ -38,7 +38,6 @@ public class LoanIdentificationNumberCode {
 	
 	public enum PermittedTypes{LN, MG}; //permitted types
 	
-	
 	/**
 	 * The constructor receives the type, if is a loan or mortgage and the country code.
 	 * 
