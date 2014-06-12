@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.assets.documents.GeneratePDFDocument;
 import es.unileon.ulebank.assets.handler.ScheduledPaymentHandler;
 import es.unileon.ulebank.assets.support.DateWrap;
 import es.unileon.ulebank.assets.support.PaymentPeriod;
@@ -42,7 +43,7 @@ public class AmericanMethod implements StrategyLoan {
 	}
 
 	/**
-	 * 
+	 * Calculate the fee that the client are going to pay in the loan
 	 */
 	@Override
 	public ArrayList<ScheduledPayment> doCalculationOfPayments() {
@@ -50,22 +51,22 @@ public class AmericanMethod implements StrategyLoan {
 
 		double money = this.loan.getDebt();
 		double paymentInterest = this.loan.getDebt() * this.loan.getInterest();
-		double s = ((Math.pow((1.0 + 0.12), this.loan.getAmortizationTime())) - 1.0) / 0.12;
-		double paymentAmortization = this.loan.getDebt() / s;
+		double fracc = ((Math.pow((1.0 + this.effectiveRate), this.loan.getAmortizationTime())) - 1.0) / this.effectiveRate;
+		double paymentAmortization = this.loan.getDebt() / fracc;
 		double payment = paymentInterest + paymentAmortization;
 
-		double F = 0;
+		double factor = 0;
 
-		while (F < this.loan.getDebt()) {
+		while (factor < this.loan.getDebt()) {
 			paymentAmortization = round(paymentAmortization, 100);
 			paymentInterest = round(paymentInterest, 100);
 			payment = round(payment, 100);
 
-			F = F * (1 + this.effectiveRate) + paymentAmortization;
+			factor = factor * (1 + this.effectiveRate) + paymentAmortization;
 
-			F = AmericanMethod.round(F, 1);
+			factor = AmericanMethod.round(factor, 1);
 
-			money = this.loan.getDebt() - F;
+			money = this.loan.getDebt() - factor;
 
 			paymentsAmerican.add(new ScheduledPayment(this.date.getDate(),
 					payment, paymentAmortization, paymentInterest, money,
@@ -79,12 +80,20 @@ public class AmericanMethod implements StrategyLoan {
 		return paymentsAmerican;
 
 	}
-
+	/**
+	 * This method round number to calculate the fees more exactly
+	 * @param num Num to round
+	 * @param factor Where number you want to round
+	 * @return The rounded number
+	 */
 	private static double round(double num, int factor) {
 		num = Math.round(num * factor);
 		return num / factor;
 	}
 
+	/**
+	 * To String method
+	 */
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

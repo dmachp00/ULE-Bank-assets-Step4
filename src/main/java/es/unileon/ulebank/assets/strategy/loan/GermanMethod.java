@@ -5,16 +5,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.assets.documents.GeneratePDFDocument;
 import es.unileon.ulebank.assets.handler.ScheduledPaymentHandler;
 import es.unileon.ulebank.assets.support.DateWrap;
 import es.unileon.ulebank.assets.support.PaymentPeriod;
 
 /**
- * Implementacion de una de las estrategias para calcular las cuotas mensuales
- * de los prestamos siguiendo el metodo aleman
+ * Implementation of one of the strategies for calculate the payments for a
+ * determine loan
  * 
+ * @author CarlitosMayo
  * 
- * v1.0 Initial version
  */
 public class GermanMethod implements StrategyLoan {
 
@@ -22,18 +23,21 @@ public class GermanMethod implements StrategyLoan {
 	 * Object reference to the loan that wait calculating the fees
 	 */
 	private Loan loan;
-
+	/**
+	 * Array where we store the payments of the loan
+	 */
 	private ArrayList<ScheduledPayment> payments;
 
+	/**
+	 * Date when the loan starts
+	 */
 	private DateWrap date;
 
 	/**
-	 * En el constructor se pasan el capital que va a ser prestado, el tipo de
-	 * interes en tanto por ciento y el tiempo para ser amortizado.
+	 * Constructor of the class
 	 * 
-	 * @param money
-	 * @param interest
-	 * @param amortizationTime
+	 * @param loan
+	 *            The loan implemented for the strategy
 	 */
 	public GermanMethod(Loan loan) {
 		this.loan = loan;
@@ -42,7 +46,7 @@ public class GermanMethod implements StrategyLoan {
 	}
 
 	/**
-	 * Metodo de la interfaz al cual se llama para realizar el calculo
+	 * This interface method calls to the method to calculate the payments
 	 */
 	@Override
 	public ArrayList<ScheduledPayment> doCalculationOfPayments() {
@@ -50,30 +54,31 @@ public class GermanMethod implements StrategyLoan {
 	}
 
 	/**
-	 * Metodo que calcula todas las cuotas utilizando el metodo aleman
+	 * Method that calculates the fees for a determinated loan
+	 * 
+	 * @return payments The arraylist with the payments
 	 */
 	private ArrayList<ScheduledPayment> doNewGermanMethod() {
 		ArrayList<ScheduledPayment> paymentsGerman = new ArrayList<>();
-		// Capital inicial
-		double capital = this.loan.getDebt();
 
-		// Calculamo el termino amortizativo constante
+		double capital = this.loan.getDebt();
 		double amortizationTerm = this.loan.getDebt() * this.loan.getInterest();
 		amortizationTerm = round(amortizationTerm, 1);
 
 		double interestsMoney = this.loan.getDebt() * this.loan.getInterest();
 		interestsMoney = round(interestsMoney, 1);
 
-		//En la primera cuota no se amortiza nada
 		double amortization = amortizationTerm - interestsMoney;
 		amortization = round(amortization, 1);
 
 		capital = round(capital, 1);
 
-		paymentsGerman.add(new ScheduledPayment(this.date.getDate(),
-				amortizationTerm, amortization, interestsMoney, capital,
-				new ScheduledPaymentHandler(this.loan.getId(), this.loan.getLinkedAccount()
-						.getTitulars(), this.date.getDate())));
+		paymentsGerman
+				.add(new ScheduledPayment(this.date.getDate(),
+						amortizationTerm, amortization, interestsMoney,
+						capital, new ScheduledPaymentHandler(this.loan.getId(),
+								this.loan.getLinkedAccount().getTitulars(),
+								this.date.getDate())));
 		this.date.updateDate();
 
 		amortizationTerm = (this.loan.getDebt() * this.loan.getInterest())
@@ -82,16 +87,16 @@ public class GermanMethod implements StrategyLoan {
 
 		amortizationTerm = round(amortizationTerm, 1);
 
-		int n = this.loan.getAmortizationTime();
-		int k = 1;
+		int amortizationTime = this.loan.getAmortizationTime();
+		int constant = 1;
 
 		while (capital > 0) {
 			// Calculo de la cualtia de capital amortizado
 			capital = (amortizationTerm * (1.0 - Math.pow(
-					1 - this.loan.getInterest(), n - k)))
+					1 - this.loan.getInterest(), amortizationTime - constant)))
 					/ this.loan.getInterest();
 			capital = round(capital, 1);
-			k++;
+			constant++;
 
 			interestsMoney = capital * this.loan.getInterest();
 			interestsMoney = round(interestsMoney, 1);
@@ -101,8 +106,9 @@ public class GermanMethod implements StrategyLoan {
 
 			paymentsGerman.add(new ScheduledPayment(this.date.getDate(),
 					amortizationTerm, amortization, interestsMoney, capital,
-					new ScheduledPaymentHandler(this.loan.getId(), this.loan.getLinkedAccount()
-							.getTitulars(), this.date.getDate())));
+					new ScheduledPaymentHandler(this.loan.getId(), this.loan
+							.getLinkedAccount().getTitulars(), this.date
+							.getDate())));
 			this.date.updateDate();
 		}
 
@@ -112,34 +118,31 @@ public class GermanMethod implements StrategyLoan {
 	}
 
 	/**
-	 * Metodo utilizado para redondear un numero. Se deben de pasa el numero a
-	 * redondear y el factor.
+	 * This method is used for round some number to do more exactly the
+	 * calculation of the fees and the final capital
 	 * 
 	 * @param num
-	 *            Numero que se quiere redondear
+	 *            Number that you want round
 	 * @param factor
-	 *            Numero de decimales a los que se quiere redondear
-	 * @return Numero redondeado
+	 *            Number of decimals that you wait
+	 * @return Round number
 	 */
-	public double round(double num, int factor) {
-		num = num * factor;
-		num = Math.round(num);
-		num = num / factor;
-		return num;
+	private static double round(double num, int factor) {
+		num = Math.round(num * factor);
+		return num / factor;
 	}
 
 	/**
-	 * Metodo que devuelve una lista con todos los pagos a realizar.
+	 * This method return the payments list
 	 * 
-	 * @return lista de los pagos
+	 * @return payments List with every payments for a loan
 	 */
 	public ArrayList<ScheduledPayment> getPayments() {
 		return this.payments;
 	}
 
 	/**
-	 * Metodo utilizado para devolver un string con las cuota halladas por el
-	 * metodo aleman
+	 * To String method
 	 */
 	@Override
 	public String toString() {

@@ -1,13 +1,11 @@
 package es.unileon.ulebank.assets.strategy.loan;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import es.unileon.ulebank.assets.Loan;
 import es.unileon.ulebank.assets.handler.ScheduledPaymentHandler;
 import es.unileon.ulebank.assets.support.DateWrap;
-import es.unileon.ulebank.assets.support.PaymentPeriod;
 
 /**
  * Implementation of strategy for calculated all fee of the loan following the
@@ -23,14 +21,18 @@ public class ProgressiveMethod implements StrategyLoan {
 	 * Object reference to the loan that wait calculating the fees
 	 */
 	private Loan loan;
-
+	/**
+	 * Array with all payments that you need for pay this loan
+	 */
 	private ArrayList<ScheduledPayment> payments;
 
 	/**
 	 * Reason of the geometric progression
 	 * **/
 	private double reason;
-
+	/**
+	 * Object with the date for do the payments
+	 */
 	private DateWrap dateWrap;
 
 	/**
@@ -80,46 +82,45 @@ public class ProgressiveMethod implements StrategyLoan {
 	 * 
 	 * @return Double with the value of this effective interest
 	 **/
-	private void calculateInterest() {
-		int monthToAdd = 12 / this.loan.getPaymentPeriod().getPeriod();
-
-		double fee = this.calculateMonthlyFee();
-		double interestEf = this.calculateInterestEf();
-		double interest = 0;
-		double amortized = 0;
-		double totalCapital = fee * this.loan.getAmortizationTime();
-		for (int i = 0; i < this.loan.getAmortizationTime(); i++) {
-			totalCapital -= fee;
-			interest = totalCapital * interestEf;
-			amortized = fee - interest;
-			totalCapital = round(totalCapital, 100);
-			fee = round(fee, 100);
-			amortized = round(amortized, 100);
-			interest = round(interest, 100);
-
-			this.payments.add(new ScheduledPayment(this.dateWrap.getDate(),
-					totalCapital, fee, interest, amortized,
-					new ScheduledPaymentHandler(this.loan.getId(), this.loan
-							.getLinkedAccount().getTitulars(), this.dateWrap
-							.getDate())));
-			this.dateWrap.updateDate();
-		}
-	}
+	// TODO Delete for Dani if this method do not be used
+	// private void calculateInterest() {
+	// int monthToAdd = 12 / this.loan.getPaymentPeriod().getPeriod();
+	//
+	// double fee = this.calculateMonthlyFee();
+	// double interestEf = this.calculateInterestEf();
+	// double interest = 0;
+	// double amortized = 0;
+	// double totalCapital = fee * this.loan.getAmortizationTime();
+	// for (int i = 0; i < this.loan.getAmortizationTime(); i++) {
+	// totalCapital -= fee;
+	// interest = totalCapital * interestEf;
+	// amortized = fee - interest;
+	// totalCapital = round(totalCapital, 100);
+	// fee = round(fee, 100);
+	// amortized = round(amortized, 100);
+	// interest = round(interest, 100);
+	//
+	// this.payments.add(new ScheduledPayment(this.dateWrap.getDate(),
+	// totalCapital, fee, interest, amortized,
+	// new ScheduledPaymentHandler(this.loan.getId(), this.loan
+	// .getLinkedAccount().getTitulars(), this.dateWrap
+	// .getDate())));
+	// this.dateWrap.updateDate();
+	// }
+	// }
 
 	/**
 	 * Used method to round.
 	 * 
 	 * @param num
-	 *            :- Number to round
+	 *            Number to round
 	 * @param factor
-	 *            :- Number in decimal
-	 * @return Numero :- Round number
+	 *            Number in decimal
+	 * @return Numero Round number
 	 **/
-	private double round(double num, int factor) {
-		num = num * factor;
-		num = Math.round(num);
-		num = num / factor;
-		return num;
+	private static double round(double num, int factor) {
+		num = Math.round(num * factor);
+		return num / factor;
 	}
 
 	/**
@@ -134,7 +135,7 @@ public class ProgressiveMethod implements StrategyLoan {
 			paymentsProgressive.add(payment);
 		}
 
-		// int monthToAdd = 12 / this.loan.getPaymentPeriod().getPeriod();
+		
 		double fee = this.calculateMonthlyFee();
 		double interestEf = this.calculateInterestEf();
 		double interest = 0;

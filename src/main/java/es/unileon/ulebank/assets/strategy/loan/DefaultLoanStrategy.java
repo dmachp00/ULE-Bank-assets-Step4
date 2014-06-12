@@ -6,6 +6,7 @@ import java.util.Date;
 
 import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.assets.documents.GeneratePDFDocument;
 import es.unileon.ulebank.assets.handler.ScheduledPaymentHandler;
 import es.unileon.ulebank.assets.support.PaymentPeriod;
 
@@ -36,6 +37,9 @@ public class DefaultLoanStrategy implements StrategyLoan {
 		this.payments = loan.getPayments();
 	}
 
+	/**
+	 * Method used for calculate the payments for the default loan
+	 */
 	@Override
 	public ArrayList<ScheduledPayment> doCalculationOfPayments() {
 		Calendar date = Calendar.getInstance();
@@ -43,15 +47,13 @@ public class DefaultLoanStrategy implements StrategyLoan {
 		int monthToAdd = 12 / this.loan.getPaymentPeriod().getPeriod();
 
 		if (this.payments.size() != 0) {
-			// si el arraylist ya tiene elementos partimos de
-			// la ultima fecha limite para pagar
+			//We use the last date if the array have some payments
 			date.setTime(this.payments.get(this.payments.size() - 1)
 					.getExpiration());
 		}
 
 		double fee = this.loan.getPeriodFee();
 		fee = round(fee, 100);
-		// double interestEf = this.calculateInterestEf();
 		double interestEf = this.loan.getInterest();
 		double interest = 0;
 		double amortized = 0;
@@ -79,8 +81,8 @@ public class DefaultLoanStrategy implements StrategyLoan {
 			date.add(Calendar.MONTH, monthToAdd);
 			ScheduledPayment payment = new ScheduledPayment(date.getTime(),
 					fee, amortized, interest, totalCapital,
-					new ScheduledPaymentHandler(this.loan.getId(), this.loan.getLinkedAccount()
-							.getTitulars(), date.getTime()));
+					new ScheduledPaymentHandler(this.loan.getId(), this.loan
+							.getLinkedAccount().getTitulars(), date.getTime()));
 			this.payments.add(payment);
 			return payments;
 
@@ -88,6 +90,17 @@ public class DefaultLoanStrategy implements StrategyLoan {
 		return payments;
 
 	}
+
+	/**
+	 * Method to round the calculations to do more exactly the fees and the
+	 * final capital will be 0.00
+	 * 
+	 * @param num
+	 *            Num to round
+	 * @param factor
+	 *            number from which round
+	 * @return
+	 */
 
 	public double round(double num, int factor) {
 		num = num * factor;

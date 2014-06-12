@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import jxl.write.biff.DateRecord;
 import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.assets.documents.GeneratePDFDocument;
 import es.unileon.ulebank.assets.handler.ScheduledPaymentHandler;
 import es.unileon.ulebank.assets.support.DateWrap;
 import es.unileon.ulebank.assets.support.PaymentPeriod;
@@ -22,7 +24,7 @@ public class FrenchMethod implements StrategyLoan {
 	 * Object reference to the loan that wait calculating the fees
 	 */
 	private Loan loan;
-
+	
 	/**
 	 * Object with the date for do the payments
 	 */
@@ -42,8 +44,7 @@ public class FrenchMethod implements StrategyLoan {
 	public FrenchMethod(Loan loan) {
 		this.loan = loan;
 		this.payments = new ArrayList<ScheduledPayment>();
-		this.dateWrap = new DateWrap(new Date(),
-				this.loan.getPaymentPeriod());
+		this.dateWrap = new DateWrap(new Date(), this.loan.getPaymentPeriod());
 	}
 
 	/**
@@ -66,8 +67,7 @@ public class FrenchMethod implements StrategyLoan {
 	private double calculateMonthlyFee() {
 		double fee = 0;
 		double interesEf = this.calculateInterestEf();
-		int numFee = (this.loan.getAmortizationTime() / this
-				.calculatePayment());
+		int numFee = (this.loan.getAmortizationTime() / this.calculatePayment());
 		double fracc = ((Math.pow((1 + interesEf), numFee)) * interesEf)
 				/ (Math.pow(1 + interesEf, numFee) - 1);
 		fee = this.loan.getAmountOfMoney() * fracc;
@@ -105,8 +105,7 @@ public class FrenchMethod implements StrategyLoan {
 	public ArrayList<ScheduledPayment> doCalculationOfPayments() {
 		ArrayList<ScheduledPayment> paymentsFrench = new ArrayList<>();
 
-		int monthToAdd = 12 / this.loan.getPaymentPeriod()
-				.getPeriod();
+		int monthToAdd = 12 / this.loan.getPaymentPeriod().getPeriod();
 		double fee = this.calculateMonthlyFee();
 		double interestEf = this.calculateInterestEf();
 		double interest = 0;
@@ -122,12 +121,11 @@ public class FrenchMethod implements StrategyLoan {
 			fee = round(fee, 100);
 			amortized = round(amortized, 100);
 			interest = round(interest, 100);
-
-			paymentsFrench.add(new ScheduledPayment(this.dateWrap.getDate(),
-					fee, amortized, interest, totalCapital,
-					new ScheduledPaymentHandler(this.loan.getId(),
-							this.loan.getLinkedAccount()
-									.getTitulars(), this.dateWrap.getDate())));
+			
+			paymentsFrench.add(new ScheduledPayment(this.dateWrap.getDate(), fee,
+					amortized, interest, totalCapital,
+					new ScheduledPaymentHandler(this.loan.getId(), this.loan.getLinkedAccount()
+							.getTitulars(),this.dateWrap.getDate())));
 			this.dateWrap.updateDate();
 		}
 

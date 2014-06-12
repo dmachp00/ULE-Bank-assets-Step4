@@ -8,17 +8,25 @@ import es.unileon.ulebank.assets.handler.ScheduledPaymentHandler;
 import es.unileon.ulebank.assets.support.DateWrap;
 
 public class ItalianMethod implements StrategyLoan {
-
+	/**
+	 * Object reference to the loan that wait calculating the fees
+	 */
 	private Loan loan;
 
+	/**
+	 * Array with all payments that you need for pay this loan
+	 */
 	private ArrayList<ScheduledPayment> payments;
 
+	/**
+	 * Object with the date for do the payments
+	 */
 	private DateWrap date;
 
 	/**
-	 * Constructor of the class
+	 * Constructor of italian method
 	 * 
-	 * @param LoanController
+	 * @param Loan
 	 *            The loan that decides calculates the fees with this method
 	 */
 	public ItalianMethod(Loan loan) {
@@ -28,7 +36,7 @@ public class ItalianMethod implements StrategyLoan {
 	}
 
 	/**
-	 * Calculate de import of the fees
+	 * Calculate the import of the fees
 	 * 
 	 * @return paymentsItalian The list with every fees
 	 */
@@ -122,11 +130,10 @@ public class ItalianMethod implements StrategyLoan {
 	 * @param factor
 	 * @return Number rounded (double)
 	 */
-	private double round(double num, int factor) {
-		num = num * factor;
-		num = Math.round(num);
-		num = num / factor;
-		return num;
+	private static double round(double num, int factor) {
+		num = Math.round(num * factor);
+		return num / factor;
 	}
+
 
 }
