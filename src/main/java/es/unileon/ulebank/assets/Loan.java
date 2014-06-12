@@ -23,6 +23,8 @@ import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.time.Time;
 
+// TODO PREGUNTAR A CAMINO COMO ACTUALIZAR DEBT CUANDO PASIVOS REALIZA EL PAGO DE LA CUOTA
+
 public class Loan implements FinancialProduct {
 	/**
 	 * Type of time period used for the effective interest
@@ -152,13 +154,7 @@ public class Loan implements FinancialProduct {
 
 		this.idLoan = idLoan;
 
-
-		if (initialCapital < 100000000) {
-			this.debt = initialCapital;
-		}else{
-			exceptionMessage.append("The bank can not lend this amount of money");
-		}
-		
+		this.debt = initialCapital;
 
 		if (interest >= 0 && interest <= 1) {
 			this.interest = interest;
@@ -166,7 +162,6 @@ public class Loan implements FinancialProduct {
 			exceptionMessage
 					.append("The interest value must be a value between 0 and 1\n");
 		}
-		
 
 		this.paymentPeriod = paymentPeriod;
 		this.amortizationTime = amortizationTime;
