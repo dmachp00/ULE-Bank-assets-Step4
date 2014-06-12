@@ -1,5 +1,4 @@
 package es.unileon.ulebank.assets.iterator;
-
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
