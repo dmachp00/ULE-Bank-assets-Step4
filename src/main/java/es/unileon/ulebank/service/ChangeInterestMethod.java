@@ -6,20 +6,20 @@ import javax.validation.constraints.Min;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ChangeMethod {
+public class ChangeInterestMethod {
 	/** Logger for this class and subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
 	
 	@Min(1)
-	@Max(5)
-	private int type;
-	public void setType(int i) {
-		type = i;
-		logger.info("Type set to " + i);
+	@Max(100)
+	private static double typeOfInterest;
+	public void setType(double i) {
+		typeOfInterest = i;
+		logger.info("An interest chooses to modify: " + i);
 	}
 	
-	public int getType() {
-		return type;
+	public static double getTypeOfInterest() {
+		return typeOfInterest;
 	}
 	
 }

@@ -25,10 +25,10 @@ import es.unileon.ulebank.assets.strategy.loan.GermanMethod;
 import es.unileon.ulebank.assets.strategy.loan.ItalianMethod;
 import es.unileon.ulebank.assets.strategy.loan.ProgressiveMethod;
 import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
-import es.unileon.ulebank.service.ChangeMethod;
+import es.unileon.ulebank.service.ChangeInterestMethod;
 
 @Controller
-@RequestMapping(value = "/changemethod.htm")
+@RequestMapping(value = "/changeInterestMethod.htm")
 public class ChangeMethodFormController {
 
 	/** Logger for this class and subclasses */
@@ -38,15 +38,15 @@ public class ChangeMethodFormController {
 	private Loan loan;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView onSubmit(@Valid ChangeMethod changeMethod,
+	public ModelAndView onSubmit(@Valid ChangeInterestMethod changeMethod,
 			BindingResult result) {
 
 		if (result.hasErrors()) {
-			return new ModelAndView("changemethod");
+			return new ModelAndView("changeInterestMethod");
 		}
 
-		int type = changeMethod.getType();
-		logger.info("Type selected: " + type);
+		double typeOfInterest = ChangeInterestMethod.getTypeOfInterest();
+		logger.info("Type selected: " + typeOfInterest);
 
 		String now = (new Date()).toString();
 		logger.info("Returning hello view with " + now);
@@ -55,7 +55,7 @@ public class ChangeMethodFormController {
 
 		myModel.put("now", now);
 
-		if (type == 1) {
+		if (typeOfInterest == 1) {
 			AmericanMethod am = new AmericanMethod(loan, 12);
 
 			ArrayList<ScheduledPayment> payments = am.doCalculationOfPayments();
@@ -63,7 +63,7 @@ public class ChangeMethodFormController {
 			myModel.put("products", payments);
 
 			return new ModelAndView("hello", "model", myModel);
-		} else if (type == 2) {
+		} else if (typeOfInterest == 2) {
 			FrenchMethod fm = new FrenchMethod(loan);
 
 			ArrayList<ScheduledPayment> payments = fm.doCalculationOfPayments();
@@ -71,7 +71,7 @@ public class ChangeMethodFormController {
 			myModel.put("products", payments);
 
 			return new ModelAndView("hello", "model", myModel);
-		} else if (type == 3) {
+		} else if (typeOfInterest == 3) {
 			GermanMethod gm = new GermanMethod(loan);
 
 			ArrayList<ScheduledPayment> payments = gm.doCalculationOfPayments();
@@ -79,7 +79,7 @@ public class ChangeMethodFormController {
 			myModel.put("products", payments);
 
 			return new ModelAndView("hello", "model", myModel);
-		} else if (type == 4) {
+		} else if (typeOfInterest == 4) {
 			ItalianMethod im = new ItalianMethod(loan);
 
 			ArrayList<ScheduledPayment> payments = im.doCalculationOfPayments();
@@ -87,7 +87,7 @@ public class ChangeMethodFormController {
 			myModel.put("products", payments);
 
 			return new ModelAndView("hello", "model", myModel);
-		} else if (type == 5) {
+		} else if (typeOfInterest == 5) {
 			ProgressiveMethod pm = new ProgressiveMethod(loan, 5);
 
 			ArrayList<ScheduledPayment> payments = pm.doCalculationOfPayments();
@@ -101,9 +101,9 @@ public class ChangeMethodFormController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	protected ChangeMethod formBackingObject(HttpServletRequest request)
+	protected ChangeInterestMethod formBackingObject(HttpServletRequest request)
 			throws ServletException {
-		ChangeMethod changeMethod = new ChangeMethod();
+		ChangeInterestMethod changeMethod = new ChangeInterestMethod();
 		changeMethod.setType(1);
 
 		return changeMethod;
