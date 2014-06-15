@@ -11,6 +11,7 @@ import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.assets.Loan;
 import es.unileon.ulebank.assets.handler.FinancialProductHandler;
 import es.unileon.ulebank.assets.support.PaymentPeriod;
+import es.unileon.ulebank.assets.web.LoanController;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.handler.GenericHandler;
 import es.unileon.ulebank.office.Office;

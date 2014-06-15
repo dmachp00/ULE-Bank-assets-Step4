@@ -1,4 +1,4 @@
-package es.unileon.ulebank.web;
+package es.unileon.ulebank.assets.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
