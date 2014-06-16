@@ -1,0 +1,106 @@
+/*Body*/
+body
+{
+	font-family: Verdana;
+	font-style: normal;
+	margin:0px;
+	padding-top:5px;
+}
+
+#main_container
+{
+	width:90%;
+	margin-left:5%;
+	padding-top:5px;
+	padding-bottom:5px;
+	float:left;
+}
+
+/*Content*/
+
+.content{
+	width:89.3%;
+	margin-top:5px;
+	margin-left:5%;
+	padding-bottom:50px;
+	background:#ffffff;
+	border: 7px outset;
+	border-color: #A82783;
+	height: auto;
+	float:left;
+}
+
+.content article
+{
+	text-align: center;
+	float:left;
+	padding: 3%;
+
+}
+
+.content article h2
+{
+	color: #A82783;
+}
+
+/*Header*/
+
+.header
+{
+	background-image: url(./BannerULE.png);
+	width:90%;
+	margin-top:5px;
+	margin-left:5%;
+	height: 200px;
+	float:left;
+}
+
+/*Menu */
+.top_menu ul
+{
+	list-style:none;
+	margin-top: 5%;
+	margin-left: 20%;
+	float:left;
+	padding: 2%;
+	width:95%;
+}
+
+.top_menu ul li
+{
+	display: inline-block;
+	float:left;
+	margin-left: 2%;
+	margin-right: 2%;
+	background: #A82783;
+	padding:8px;
+	border-radius: 15%;
+}
+.top_menu ul li a
+{
+	color: #FFFFFF;
+	font-family: Arial;
+	font-style: normal;
+	text-decoration:none;
+}
+
+/*Footer*/
+.footer
+{
+	width:90%;
+	margin-top:5px;
+	margin-left:5%;
+	background:#ffffff;
+	border: 3px outset;
+	height: 110px;
+	float:left;
+}
+
+.footer_msg
+{
+	margin-top: 40px;
+float: left;
+margin-left: 5%;
+font-size: 0.8em;
+color: rgb(126, 126, 126);
+}
