@@ -24,9 +24,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.unileon.ulebank.assets.Loan;
-import es.unileon.ulebank.assets.repository.LoanDao;
-import es.unileon.ulebank.assets.service.ChangeMethod;
+import es.unileon.ulebank.repository.LoansDao;
+import es.unileon.ulebank.assets.domain.Loans;
 import es.unileon.ulebank.assets.service.ModifyInterest;
+import es.unileon.ulebank.assets.service.ChangeMethod;
 import es.unileon.ulebank.assets.strategy.loan.AmericanMethod;
 import es.unileon.ulebank.assets.strategy.loan.FrenchMethod;
 import es.unileon.ulebank.assets.strategy.loan.GermanMethod;
@@ -42,7 +43,7 @@ public class ModifyInterestController {
 	protected final Log LOGGER = LogFactory.getLog(getClass());
 	
 	@Autowired
-	private LoanDao loanDao;
+	private LoansDao loanDao;
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView onSubmit(@Valid ModifyInterest modifyInteres, @Valid ChangeMethod changeMethod, BindingResult result) {
