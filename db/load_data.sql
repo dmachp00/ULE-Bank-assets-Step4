@@ -1,3 +1,1 @@
-INSERT INTO products (idLoan, ,idClient, paymentPeriod, initialCapital, amortizationTime, interest, tableOfAmortization, totals) values('Dani Machado', 12, 1300, 120, 5,'Table of amortization', 1365);
-INSERT INTO products (idLoan, ,idClient, paymentPeriod, initialCapital, amortizationTime, interest, tableOfAmortization, totals) values('David Gomez', 28, 1300, 120, 7, 'Table of amortization',1391);
-INSERT INTO products (idLoan, ,idClient, paymentPeriod, initialCapital, amortizationTime, interest, tableOfAmortization, totals) values('Ya sabemos quien va aqui', 12, 1300, 120, 5, 'Table of amortization', 1365);
+INSERT INTO loan (id, money, interest, numFees) values(1, 3000.00, 0.05, 12);
