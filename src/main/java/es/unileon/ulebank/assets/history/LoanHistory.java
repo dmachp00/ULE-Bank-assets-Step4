@@ -14,7 +14,7 @@ public class LoanHistory {
 	private ArrayList<ScheduledPayment> payments;
 
 	public LoanHistory() {
-		this.payments = new ArrayList<>();
+		this.payments = new ArrayList<ScheduledPayment>();
 	}
 
 	/**

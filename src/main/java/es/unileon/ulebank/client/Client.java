@@ -31,7 +31,7 @@ public class Client {
      * @param clientHandler 
      */
     public Client(Handler clientHandler){
-        accounts = new ArrayList<>();
+        accounts = new ArrayList<Account>();
         this.id=clientHandler;
     }
     
