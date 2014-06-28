@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.groups.Default;
 
-import org.apache.catalina.connector.Request;
+//import org.apache.catalina.connector.Request;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.jetty.annotations.PostConstructAnnotationHandler;
+//import org.eclipse.jetty.annotations.PostConstructAnnotationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Component;
@@ -60,17 +60,17 @@ public class ModifyInterestController {
 		
 		myModel.put("now", now);
 		
-		List<Loan> lista = loanDao.getLoanList();
+		List<Loans> lista = loanDao.getLoanList();
 		
 		switch (type) {
 		case 1:
-			Loan loanAmericanMethod = lista.get(0);
+			Loans loanAmericanMethod = lista.get(0);
 			AmericanMethod aM = new AmericanMethod(loanAmericanMethod, 12);
 			ArrayList<ScheduledPayment> paymentsAmericanMethod = aM.doCalculationOfPayments();
 			myModel.put("products", paymentsAmericanMethod);
 			return new ModelAndView("fees", "model", myModel);
 		case 2:
-			Loan loanFrechMethod = lista.get(0);
+			Loans loanFrechMethod = lista.get(0);
 			FrenchMethod fM = new FrenchMethod(loanFrechMethod);
 			ArrayList<ScheduledPayment> paymentsFrechMethod = fM.doCalculationOfPayments();
 			myModel.put("products", paymentsFrechMethod);
@@ -101,7 +101,7 @@ public class ModifyInterestController {
 	@RequestMapping(method = RequestMethod.GET)
 	protected ModifyInterest formBModifyInterest(HttpServletRequest request) throws ServletException {
 		ModifyInterest modifyInterest = new ModifyInterest();
-		double interestForModification;
+		double interestForModification = 0;
 		modifyInterest.setTypeOfInterest(interestForModification);
 		return modifyInterest;
 	}

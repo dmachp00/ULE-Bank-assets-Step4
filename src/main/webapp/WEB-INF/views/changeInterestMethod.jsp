@@ -3,12 +3,6 @@
 
 <html>
 <head>
-<style type="text/css">
-<%@
-include file ="/resources /css/style.css " %> .error {
-	color: red;
-}
-</style>
 <title><fmt:message key="title" /></title>
 </head>
 <body>
@@ -25,12 +19,7 @@ include file ="/resources /css/style.css " %> .error {
 
 	<nav class="menu">
 		<ul>
-			<li><a href="<c:url value=""/>">Opcion</a></li>
-			<li><a href="<c:url value=""/> ">Opcion</a></li>
-			<li><a href="<c:url value=""/>">Opcion</a></li>
-			<li><a href="<c:url value=""/>">Opcion</a></li>
-			<li><a href="<c:url value=""/>">Opcion</a></li>
-			<li><a href="<c:url value=""/>">Opcion</a></li>
+			<li><a href="<c:url value=""/>">Recalculo de interes</a></li>
 		</ul>
 	</nav>
 	<h1>
