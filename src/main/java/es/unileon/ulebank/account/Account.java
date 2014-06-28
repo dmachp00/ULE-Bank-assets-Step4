@@ -84,14 +84,14 @@ public class Account {
      */
     public Account(Office office, Bank bank, String accountnumber) throws MalformedHandlerException {
         this.id = new AccountHandler(office.getIdOffice(), bank.getID(), accountnumber);
-        this.history = new History<>();
+        this.history = new History<Transaction>();
         this.balance = 0.0d;
-        this.titulars = new ArrayList<>();
-        this.authorizeds = new ArrayList<>();
+        this.titulars = new ArrayList<Client>();
+        this.authorizeds = new ArrayList<Client>();
         this.lastLiquidation = new Date(System.currentTimeMillis());
         this.liquidationFrecuency = DEFAULT_LIQUIDATION_FREQUENCY;
-        this.liquidationStrategies = new ArrayList<>();
-        this.directDebit = new History<>();
+        this.liquidationStrategies = new ArrayList<LiquidationStrategy>();
+        this.directDebit = new History<DirectDebitTransaction>();
         this.maxOverdraft = 0;
         LOG.info("Create a new account with number " + accountnumber + " office " + office.getIdOffice().toString() + " bank " + bank.getID());
     }
@@ -246,7 +246,7 @@ public class Account {
      * @return ( The titulars )
      */
     public List<Client> getTitulars() {
-        return new ArrayList<>(this.titulars);
+        return new ArrayList<Client>(this.titulars);
     }
 
     /**
@@ -255,7 +255,7 @@ public class Account {
      * @return ( the authorizeds )
      */
     public List<Client> getAuthorizeds() {
-        return new ArrayList<>(this.authorizeds);
+        return new ArrayList<Client>(this.authorizeds);
     }
 
     /**
