@@ -1,7 +1,5 @@
 package es.unileon.ulebank.repository;
 
-// Generated Jun 15, 2014 6:36:38 PM by Hibernate Tools 3.4.0.CR1
-
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -14,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.unileon.ulebank.account.Accounts;
+import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.assets.Loan;
 import es.unileon.ulebank.assets.domain.Loans;
 import es.unileon.ulebank.client.Client;
@@ -91,10 +89,10 @@ public class JPALoansDao implements LoansDao {
     }
 
     @Override
-    public Accounts getLoanAccount(String accountNumber) {
+    public Account getLoanAccount(String accountNumber) {
         Query query = entityManager.createQuery("select c from Loans where account_number=" + accountNumber);
         @SuppressWarnings("unchecked")
-        Accounts result = (Accounts) query.getSingleResult();
+        Account result = (Account) query.getSingleResult();
         return result;
     }
 

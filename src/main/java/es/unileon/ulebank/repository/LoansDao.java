@@ -2,7 +2,7 @@ package es.unileon.ulebank.repository;
 
 import java.util.List;
 
-import es.unileon.ulebank.account.Accounts;
+import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.assets.Loan;
 import es.unileon.ulebank.assets.domain.Loans;
 import es.unileon.ulebank.client.Client;
@@ -19,7 +19,7 @@ public interface LoansDao {
 
     public Client getLoanClient(String dni);
 
-    public Accounts getLoanAccount(String accountNumber);
+    public Account getLoanAccount(String accountNumber);
     
     public List<Loans> getLoanList();
 

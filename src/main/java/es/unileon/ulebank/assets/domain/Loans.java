@@ -61,7 +61,7 @@ public class Loans implements java.io.Serializable {
     private String discriminator;
 
     public Loans(Loan loan, String discriminator) {
-        this.accounts = loan.getAccount();
+        this.accounts = loan.getLinkedAccount();
         this.amortizationTime = loan.getAmortizationTime();
         this.clients = loan.getClient();
         this.description = loan.getDescription();

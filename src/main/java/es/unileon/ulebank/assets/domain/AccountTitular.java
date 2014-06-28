@@ -10,24 +10,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import es.unileon.ulebank.account.Accounts;
+import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.client.Client;
 
 @Entity
 @Table(name = "ACCOUNTS_CLIENTS", catalog = "ULEBANK_FINAL")
 public class AccountTitular {
 
-    private Accounts account;
+    private Account account;
     private Client authorized;
     private AccountTitularId accountId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_number", nullable = false, insertable = false, updatable = false)
-    public Accounts getAccount() {
+    public Account getAccount() {
         return account;
     }
 
-    public void setAccount(Accounts account) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 
