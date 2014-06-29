@@ -17,7 +17,7 @@ import es.unileon.ulebank.handler.Handler;
 @Table(name = "GENERIC_HANDLER", catalog = "ULEBANK_FINAL")
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("GenericHandler")
-public class GenericHandler extends Handler {
+public class GenericHandler implements Handler {
 
 
     /**
@@ -41,5 +41,16 @@ public class GenericHandler extends Handler {
     public GenericHandler(String id) {
         this.setId(id);
     }
+
+	private void setId(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int compareTo(Handler another) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

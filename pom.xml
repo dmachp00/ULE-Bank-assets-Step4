@@ -1,10 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <groupId>es.unileon</groupId>
   <artifactId>springapp_v1</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>springapp_v1</name>
+  <name>springapp_v1 Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -21,7 +22,7 @@
     <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-webmvc</artifactId>
-    	<version>4.0.3.RELEASE</version>
+    	<version>${org.springframework.version}</version>
     </dependency>
     <dependency>
     	<groupId>javax.servlet</groupId>
@@ -104,7 +105,6 @@
     <finalName>springapp_v1</finalName>
   </build>
   <properties>
-  	<org.springframework.version>4.0.3.RELEASE</org.springframework.version>
+  	<org.springframework.version>4.0.4.RELEASE</org.springframework.version>
   </properties>
-  <groupId>es.unileon.ulebank</groupId>
 </project>

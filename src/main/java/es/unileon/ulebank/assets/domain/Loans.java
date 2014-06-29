@@ -65,7 +65,7 @@ public class Loans implements java.io.Serializable {
         this.amortizationTime = loan.getAmortizationTime();
         this.clients = loan.getClient();
         this.description = loan.getDescription();
-        this.genericHandler = loan.getId();
+        this.genericHandler = (Handler) loan.getId();
         this.paymentPeriod = loan.getPaymentPeriod().name();
         this.interest = loan.getInterest();
         this.initialCapital = loan.getInitialCapital();
