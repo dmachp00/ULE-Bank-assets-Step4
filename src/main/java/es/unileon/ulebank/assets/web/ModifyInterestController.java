@@ -46,10 +46,10 @@ public class ModifyInterestController {
 	private LoansDao loanDao;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView onSubmit(@Valid ModifyInterest modifyInteres, @Valid ChangeMethod changeMethod, BindingResult result) {
+	public ModelAndView onSubmit(@Valid ModifyInterest modifyInterst, @Valid ChangeMethod changeMethod, BindingResult result) {
 		
 		int type = changeMethod.getType();
-		double typeOfInterest = modifyInteres.getTypeOfInterest();
+		double typeOfInterest = modifyInterst.getTypeOfInterest();
 		String now = (new Date().toString());
 		
 		LOGGER.info("Select the type of interest: " + typeOfInterest);
@@ -64,33 +64,33 @@ public class ModifyInterestController {
 		
 		switch (type) {
 		case 1:
-			Loans loanAmericanMethod = lista.get(0);
+			Loan loanAmericanMethod = new Loan(lista.get(0));
 			AmericanMethod aM = new AmericanMethod(loanAmericanMethod, 12);
-			ArrayList<ScheduledPayment> paymentsAmericanMethod = aM.doCalculationOfPayments();
+			List<ScheduledPayment> paymentsAmericanMethod = aM.doCalculationOfPayments();
 			myModel.put("products", paymentsAmericanMethod);
 			return new ModelAndView("fees", "model", myModel);
 		case 2:
-			Loans loanFrechMethod = lista.get(0);
+			Loan loanFrechMethod = lista.get(0);
 			FrenchMethod fM = new FrenchMethod(loanFrechMethod);
-			ArrayList<ScheduledPayment> paymentsFrechMethod = fM.doCalculationOfPayments();
+			List<ScheduledPayment> paymentsFrechMethod = fM.doCalculationOfPayments();
 			myModel.put("products", paymentsFrechMethod);
 			return new ModelAndView("fees", "model", myModel);
 		case 3:
 			Loan loanGermanMethod = lista.get(0);
 			GermanMethod gM = new GermanMethod(loanGermanMethod);
-			ArrayList<ScheduledPayment> paymentsGermanMethod = gM.doCalculationOfPayments();
+			List<ScheduledPayment> paymentsGermanMethod = gM.doCalculationOfPayments();
 			myModel.put("products", paymentsGermanMethod);
 			return new ModelAndView("fees", "model", myModel);
 		case 4:
 			Loan loanItalianMethod = lista.get(0);
 			ItalianMethod iM = new ItalianMethod(loanItalianMethod);
-			ArrayList<ScheduledPayment> paymentsItalianMethod = iM.doCalculationOfPayments();
+			List<ScheduledPayment> paymentsItalianMethod = iM.doCalculationOfPayments();
 			myModel.put("products", paymentsItalianMethod);
 			return new ModelAndView("fees", "model", myModel);
 		case 5:
 			Loan loanProgressiveMethod = lista.get(0);
 			ProgressiveMethod pM = new ProgressiveMethod(loanProgressiveMethod, 5);
-			ArrayList<ScheduledPayment> paymentsProgressiveMethod = pM.doCalculationOfPayments();
+			List<ScheduledPayment> paymentsProgressiveMethod = pM.doCalculationOfPayments();
 			myModel.put("products", paymentsProgressiveMethod);
 			return new ModelAndView("fees", "model", myModel);
 		default:
